@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--View space-->
+    <dimen name="view_space_16">16dp</dimen>
+    <dimen name="view_space_8">8dp</dimen>
+    <dimen name="view_space_24">24dp</dimen>
+    <dimen name="view_space_32">32dp</dimen>
+
+    <!--Text headings-->
+    <!--Text size for each and every question title-->
+    <dimen name="text_heading_que_title">25sp</dimen>
+    <!--Text size for each and every answer-->
+    <dimen name="text_heading_ans">20sp</dimen>
+    <!--TextView size-->
+    <dimen name="txt_heading_three">16sp</dimen>
+    <!--TextView size-->
+    <dimen name="txt_heading_two">18sp</dimen>
+    <!--TextView size-->
+    <dimen name="txt_heading_one">22sp</dimen>
+    <!--TextView size-->
+
+    <!--Buttons-->
+    <!--Button radius-->
+    <dimen name="radius_btn">60dp</dimen>
+    <!--Padding for custom button-->
+    <dimen name="padding_custom_btn_top_bottom">10dp</dimen>
+
+    <!--Dialog-->
+    <!--Dialog view space-->
+    <dimen name="view_space_dialog">18dp</dimen>
+    <!--Width of divider that separates views-->
+    <dimen name="view_divider_width">1dp</dimen>
+    <!--Others-->
+</resources>
