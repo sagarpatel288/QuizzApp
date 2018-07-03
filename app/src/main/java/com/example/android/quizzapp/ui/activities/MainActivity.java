@@ -2,7 +2,6 @@ package com.example.android.quizzapp.ui.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.android.quizzapp.R;
 import com.example.android.quizzapp.appconstants.AppConstantStrings;
@@ -29,31 +29,17 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    //region XML Parsed UI Variables
+    //region XML Parsed UI Variables (BindViews cannot be private for ButterKnife)
+    /**
+     * @see <a href="https://github.com/JakeWharton/butterknife/issues/518">Butter Knife</a>
+     * @since  1.0
+     */
     @BindView(R.id.rbtn_ans_1_a)
     RadioButton rbtnAns1A;
-    @BindView(R.id.rbtn_ans_1_b)
-    RadioButton rbtnAns1B;
-    @BindView(R.id.rbtn_ans_1_c)
-    RadioButton rbtnAns1C;
-    @BindView(R.id.rbtn_ans_1_d)
-    RadioButton rbtnAns1D;
-    @BindView(R.id.rbtn_ans_2_a)
-    RadioButton rbtnAns2A;
-    @BindView(R.id.rbtn_ans_2_b)
-    RadioButton rbtnAns2B;
     @BindView(R.id.rbtn_ans_2_c)
     RadioButton rbtnAns2C;
-    @BindView(R.id.rbtn_ans_2_d)
-    RadioButton rbtnAns2D;
-    @BindView(R.id.rbtn_ans_3_a)
-    RadioButton rbtnAns3A;
-    @BindView(R.id.rbtn_ans_3_b)
-    RadioButton rbtnAns3B;
     @BindView(R.id.rbtn_ans_3_c)
     RadioButton rbtnAns3C;
-    @BindView(R.id.rbtn_ans_3_d)
-    RadioButton rbtnAns3D;
     @BindView(R.id.cb_ans_4_a)
     CheckBox cbAns4A;
     @BindView(R.id.cb_ans_4_b)
@@ -62,46 +48,18 @@ public class MainActivity extends AppCompatActivity {
     CheckBox cbAns4C;
     @BindView(R.id.cb_ans_4_d)
     CheckBox cbAns4D;
-    @BindView(R.id.rbtn_ans_5_a)
-    RadioButton rbtnAns5A;
     @BindView(R.id.rbtn_ans_5_b)
     RadioButton rbtnAns5B;
-    @BindView(R.id.rbtn_ans_5_c)
-    RadioButton rbtnAns5C;
-    @BindView(R.id.rbtn_ans_5_d)
-    RadioButton rbtnAns5D;
-    @BindView(R.id.rbtn_ans_6_a)
-    RadioButton rbtnAns6A;
     @BindView(R.id.rbtn_ans_6_b)
     RadioButton rbtnAns6B;
-    @BindView(R.id.rbtn_ans_6_c)
-    RadioButton rbtnAns6C;
-    @BindView(R.id.rbtn_ans_6_d)
-    RadioButton rbtnAns6D;
     @BindView(R.id.rbtn_ans_7_a)
     RadioButton rbtnAns7A;
-    @BindView(R.id.rbtn_ans_7_b)
-    RadioButton rbtnAns7B;
-    @BindView(R.id.rbtn_ans_7_c)
-    RadioButton rbtnAns7C;
-    @BindView(R.id.rbtn_ans_7_d)
-    RadioButton rbtnAns7D;
-    @BindView(R.id.rbtn_ans_8_a)
-    RadioButton rbtnAns8A;
     @BindView(R.id.rbtn_ans_8_b)
     RadioButton rbtnAns8B;
-    @BindView(R.id.rbtn_ans_8_c)
-    RadioButton rbtnAns8C;
-    @BindView(R.id.rbtn_ans_8_d)
-    RadioButton rbtnAns8D;
     @BindView(R.id.tiet_ans_9)
     TextInputEditText tietAns9;
-    @BindView(R.id.til_ans_9)
-    TextInputLayout tilAns9;
     @BindView(R.id.tiet_ans_10)
     TextInputEditText tietAns10;
-    @BindView(R.id.til_ans_10)
-    TextInputLayout tilAns10;
     @BindView(R.id.btn_submit_ans)
     CustomButton btnSubmitCheckAns;
     @BindView(R.id.rg_que_1)
@@ -118,10 +76,6 @@ public class MainActivity extends AppCompatActivity {
     RadioGroup rgQue7;
     @BindView(R.id.rg_que_8)
     RadioGroup rgQue8;
-    @BindView(R.id.btn_check_ans)
-    CustomButton btnCheckAns;
-    @BindView(R.id.btn_reset_ans)
-    CustomButton btnResetAns;
     //endregion
 
     //region Class variables
@@ -174,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
      * @return mutable {@link #score}
      * @since 1.0
      */
-    public int getScore(List<View> views) {
+    private int getScore(List<View> views) {
         score = 0;
         for (View view : views) {
             if (view instanceof RadioButton && ((RadioButton) view).isChecked()) {
@@ -200,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
      * @return An array of views
      * @since 1.0
      */
-    public List<View> getViewsToCheck() {
+    private List<View> getViewsToCheck() {
         return Arrays.asList(rgQue1, rbtnAns1A, rgQue2, rbtnAns2C, rgQue3, rbtnAns3C,
                 rgQue5, rbtnAns5B, rgQue6, rbtnAns6B, rgQue7, rbtnAns7A,
                 rgQue8, rbtnAns8B, tietAns9, tietAns10);
@@ -224,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
      * @return mutable {@link #checkBoxScore}
      * @since 1.0
      */
-    public int getScoreFromCheckBoxes(CheckBox[] checkBoxes) {
+    private int getScoreFromCheckBoxes(CheckBox[] checkBoxes) {
         checkBoxScore = 0;
         if (hasAllChecked(checkBoxes)) {
             checkBoxScore++;
@@ -244,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
      * @return An array of checkBox
      * @since 1.0
      */
-    public CheckBox[] getCheckBoxesToCheck() {
+    private CheckBox[] getCheckBoxesToCheck() {
         return new CheckBox[]{cbAns4A, cbAns4B, cbAns4C, cbAns4D};
     }
 
@@ -254,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
      * @return True if submitAlert dialog is currently visible {@link #showSubmitAlert()}
      * @since 1.0
      */
-    public boolean hasSubmitAlert() {
+    private boolean hasSubmitAlert() {
         return hasSubmitAlert;
     }
 
@@ -264,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
      * @return True if result dialog is currently visible {@link #showScore(int)}
      * @since 1.0
      */
-    public boolean hasResultDialog() {
+    private boolean hasResultDialog() {
         return hasResultDialog;
     }
 
@@ -274,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
      * @return True if reset alert dialog is currently visible
      * @since 1.0
      */
-    public boolean hasResetAlert() {
+    private boolean hasResetAlert() {
         return hasResetAlert;
     }
 
@@ -284,12 +238,12 @@ public class MainActivity extends AppCompatActivity {
      * @return True if check alert dialog is currently visible
      * @since 1.0
      */
-    public boolean hasCheckAlert() {
+    private boolean hasCheckAlert() {
         return hasCheckAlert;
     }
 
     //Prevents memory leak for dialog. Garbage collection.
-    public void gcDialog() {
+    private void gcDialog() {
         dismissDialog(myAlertDialog);
     }
 
@@ -338,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
      * @return true if all given checkBoxes have been set checked
      * @since 1.0
      */
-    public boolean hasAllChecked(CheckBox[] checkBoxes) {
+    private boolean hasAllChecked(CheckBox[] checkBoxes) {
         List<CheckBox> cboxes = new ArrayList<>();
         for (CheckBox cb : checkBoxes) {
             if (cb.isChecked()) {
@@ -350,8 +304,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Dismisses given dialogFragment
-     * */
-    public void dismissDialog(DialogFragment dialogFragment) {
+     */
+    private void dismissDialog(DialogFragment dialogFragment) {
         if (dialogFragment != null && dialogFragment.getShowsDialog()) {
             dialogFragment.dismiss();
         }
@@ -362,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @since 1.0
      */
-    public void setHasCheckAlert(boolean hasCheckAlert) {
+    private void setHasCheckAlert(boolean hasCheckAlert) {
         this.hasCheckAlert = hasCheckAlert;
     }
 
@@ -402,7 +356,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @since 1.0
      */
-    public void onClickSubmit() {
+    private void onClickSubmit() {
         showSubmitAlert();
     }
 
@@ -413,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
      * @see DialogFragment for more information
      * @since 1.0
      */
-    public void showSubmitAlert() {
+    private void showSubmitAlert() {
         gcDialog();
         setHasSubmitAlert(true);
         myAlertDialog = new MyAlertDialog()
@@ -444,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
      * @param hasSubmitAlert True if submit alert dialog is currently visible {@link #showSubmitAlert()}
      * @since 1.0
      */
-    public void setHasSubmitAlert(boolean hasSubmitAlert) {
+    private void setHasSubmitAlert(boolean hasSubmitAlert) {
         this.hasSubmitAlert = hasSubmitAlert;
     }
 
@@ -456,7 +410,7 @@ public class MainActivity extends AppCompatActivity {
      * @see DialogFragment for more information
      * @since 1.0
      */
-    public void showScore(int score) {
+    private void showScore(int score) {
         gcDialog();
         setHasResultDialog(true);
         myAlertDialog = new MyAlertDialog()
@@ -488,7 +442,7 @@ public class MainActivity extends AppCompatActivity {
      * @param hasResultDialog True if result alert dialog is currently visible {@link #showScore(int)}
      * @since 1.0
      */
-    public void setHasResultDialog(boolean hasResultDialog) {
+    private void setHasResultDialog(boolean hasResultDialog) {
         this.hasResultDialog = hasResultDialog;
     }
 
@@ -503,7 +457,7 @@ public class MainActivity extends AppCompatActivity {
      * @see DialogFragment for more information
      * @since 1.0
      */
-    public String getScoreMessage(int score) {
+    private String getScoreMessage(int score) {
         return getString(R.string.msg_score)
                 .replace("#",
                         score == 0 ? String.valueOf(
@@ -518,7 +472,7 @@ public class MainActivity extends AppCompatActivity {
      * @see DialogFragment for more information
      * @since 1.0
      */
-    public void showResetAlert() {
+    private void showResetAlert() {
         gcDialog();
         setHasResetAlert(true);
         myAlertDialog = new MyAlertDialog()
@@ -551,7 +505,7 @@ public class MainActivity extends AppCompatActivity {
      * @see DialogFragment for more information
      * @since 1.0
      */
-    public void showCheckAlert() {
+    private void showCheckAlert() {
         gcDialog();
         setHasCheckAlert(true);
         myAlertDialog = new MyAlertDialog()
@@ -587,7 +541,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @since 1.0
      */
-    public void resetQuiz() {
+    private void resetQuiz() {
         for (View view : getViewsToCheck()) {
             //Resets the radio buttons
             if (view instanceof RadioGroup) {
@@ -614,7 +568,7 @@ public class MainActivity extends AppCompatActivity {
      * @param hasResetAlert True if reset alert dialog is currently visible {@link #showResetAlert()}
      * @since 1.0
      */
-    public void setHasResetAlert(boolean hasResetAlert) {
+    private void setHasResetAlert(boolean hasResetAlert) {
         this.hasResetAlert = hasResetAlert;
     }
 
